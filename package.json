@@ -1,0 +1,10 @@
+{
+    "name": "com.razveck.unityutility",
+    "version": "1.0.0",
+    "displayName": "Unity Utility",
+    "description": "A collection of useful functions and components",
+    "unity": "2019.1",
+    "author": {
+      "name": "João Azuaga"
+    }
+  }
