@@ -52,17 +52,6 @@ namespace razveck.UnityUtility {
 			throw new MissingComponentException($"There is no {nameof(SceneContext)} in {caller.name}'s scene");
 		}
 
-		public static T GetContextForObject<T>(GameObject caller) where T : ContextBehaviour<T>{
-			var gos = caller.scene.GetRootGameObjects();
-			foreach(var go in gos) {
-				if(go.TryGetComponent(out T context)){
-					return context;
-				}
-			}
-
-			throw new MissingComponentException($"There is no {nameof(ContextBehaviour<T>)} in {caller.name}'s scene");
-		}
-
 		public void SetCameras(IEnumerable<Camera> cameras) {
 			_cameras = cameras.ToArray();
 			SwitchCamera(0);

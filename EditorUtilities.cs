@@ -8,7 +8,7 @@ using UnityEditor;
 using UnityEngine;
 
 namespace razveck.UnityUtility {
-	public static class EditorUtility {
+	public static class EditorUtilities {
 
 		public static T LoadAssetOfType<T>() where T : UnityEngine.Object {
 			Type t = typeof(T);
