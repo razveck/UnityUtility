@@ -10,24 +10,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace razveck.UnityUtility {
-	public class SceneContext : MonoBehaviour {
-		private int _cameraIndex;
-		private Camera[] _cameras;
-
+	public class SceneInitializer : MonoBehaviour {
 		[SerializeField]
 		private List<SceneReference> _sceneDependencies;
 		[SerializeField]
 		private SceneReference _activeScene;
 
-		public Camera ActiveCamera { get; private set; }
-
 		#region Events
-		private ReplaySubject<Camera> _activeCameraChanges = new ReplaySubject<Camera>(1);
-		public IObservable<Camera> ActiveCameraChanges => _activeCameraChanges;
 		#endregion
 
 		protected async void Awake() {
-
 			if(!SceneService.Instance.LoadedScenes.Contains(gameObject.scene.path)) {
 				SceneService.Instance.LoadedScenes.Add(gameObject.scene.path);
 			}
@@ -41,26 +33,15 @@ namespace razveck.UnityUtility {
 				SceneManager.SetActiveScene(SceneManager.GetSceneByPath(_activeScene));
 		}
 
-		public static SceneContext GetContextForObject(GameObject caller){
+		public static SceneInitializer GetInitializerForObject(GameObject caller){
 			var gos = caller.scene.GetRootGameObjects();
 			foreach(var go in gos) {
-				if(go.TryGetComponent(out SceneContext context)){
-					return context;
+				if(go.TryGetComponent(out SceneInitializer initializer)){
+					return initializer;
 				}
 			}
 
-			throw new MissingComponentException($"There is no {nameof(SceneContext)} in {caller.name}'s scene");
-		}
-
-		public void SetCameras(IEnumerable<Camera> cameras) {
-			_cameras = cameras.ToArray();
-			SwitchCamera(0);
-		}
-
-		public void SwitchCamera(int direction) {
-			_cameraIndex = (int)Mathf.Repeat(_cameraIndex + direction, _cameras.Length);
-			ActiveCamera = _cameras[_cameraIndex];
-			_activeCameraChanges.OnNext(ActiveCamera);
+			throw new MissingComponentException($"There is no {nameof(SceneInitializer)} in {caller.name}'s scene");
 		}
 	}
 }

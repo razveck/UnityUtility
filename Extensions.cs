@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
 using System.Linq;
+using UniRx;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -224,18 +225,19 @@ namespace razveck.UnityUtility {
 		/// Creates a task that combines the current task with a provided task
 		/// </summary>
 		/// <param name="other">The task to append</param>
-		public static Task Append(this Task task, Task other) {
-			return Task.WhenAll(task, other);
+		public static void Append(this Task task, Task other) {
+			task = Task.WhenAll(task, other);
 		}
 
 		/// <summary>
 		/// Creates a task that combines the current task with the provided tasks
 		/// </summary>
 		/// <param name="other">The tasks to append</param>
-		public static Task Append(this Task task, params Task[] tasks) {
-			return Task.WhenAll(tasks.Append(task));
+		public static void Append(this Task task, params Task[] tasks) {
+			task = Task.WhenAll(tasks.Append(task));
 		}
-
+		
+		
 		#endregion
 
 		#region Task<T>
