@@ -5,6 +5,10 @@ using UnityEngine;
 using System.Threading.Tasks;
 using System.Linq;
 using UniRx;
+using System;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
+using System.Threading;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -199,7 +203,7 @@ namespace razveck.UnityUtility {
 		/// </summary>
 		/// <param name="value"></param>
 		/// <returns></returns>
-		public static bool IsValid(this string value){
+		public static bool IsValid(this string value) {
 			return !string.IsNullOrEmpty(value) && !string.IsNullOrWhiteSpace(value);
 		}
 
@@ -211,7 +215,7 @@ namespace razveck.UnityUtility {
 		/// Safely destroys all children of the transform.
 		/// </summary>
 		/// <param name="transform"></param>
-		public static void DestroyChildren(this Transform transform){
+		public static void DestroyChildren(this Transform transform) {
 			for(int i = 0; i < transform.childCount; i++) {
 				transform.GetChild(i).gameObject.SafeDestroy();
 			}
@@ -224,37 +228,50 @@ namespace razveck.UnityUtility {
 		/// <summary>
 		/// Creates a task that combines the current task with a provided task
 		/// </summary>
-		/// <param name="other">The task to append</param>
-		public static void Append(this Task task, Task other) {
-			task = Task.WhenAll(task, other);
+		public static Task CombineWith(this Task task, Task other) {
+			return Task.WhenAll(task, other);
 		}
 
 		/// <summary>
 		/// Creates a task that combines the current task with the provided tasks
 		/// </summary>
-		/// <param name="other">The tasks to append</param>
-		public static void Append(this Task task, params Task[] tasks) {
-			task = Task.WhenAll(tasks.Append(task));
+		public static Task CombineWith(this Task task, params Task[] others) {
+			return Task.WhenAll(others.Append(task));
 		}
-		
-		
+
+		/// <summary>
+		/// Returns a Task that runs the passed task after the current task ends
+		/// </summary>
+		public static async Task Then(this Task task, Task continuation) {
+			await task;
+			await continuation;
+		}
+
+		/// <summary>
+		/// Returns a Task that runs the passed tasks after the current task ends
+		/// </summary>
+		public static async Task Then(this Task task, params Task[] tasks){
+			await task;
+			for(int i = 0; i < tasks.Length; i++) {
+				await tasks[i];
+			}
+		}
+
 		#endregion
 
 		#region Task<T>
 		/// <summary>
 		/// Creates a task that combines the current task with a provided task and returns their return values
 		/// </summary>
-		/// <param name="other">The task to append</param>
-		public static Task<T[]> Append<T>(this Task<T> task, Task<T> other) {
+		public static Task<T[]> CombineWith<T>(this Task<T> task, Task<T> other) {
 			return Task.WhenAll(task, other);
 		}
 
 		/// <summary>
 		/// Creates a task that combines the current task with the provided tasks and returns their return values
 		/// </summary>
-		/// <param name="other">The tasks to append</param>
-		public static Task<T[]> Append<T>(this Task<T> task, params Task<T>[] tasks) {
-			return Task.WhenAll(tasks.Append(task));
+		public static Task<T[]> CombineWith<T>(this Task<T> task, params Task<T>[] others) {
+			return Task.WhenAll(others.Append(task));
 		}
 		#endregion
 	}
