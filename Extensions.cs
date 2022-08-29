@@ -242,18 +242,18 @@ namespace razveck.UnityUtility {
 		/// <summary>
 		/// Returns a Task that runs the passed task after the current task ends
 		/// </summary>
-		public static async Task Then(this Task task, Task continuation) {
+		public static async Task Then(this Task task, Action continuation) {
 			await task;
-			await continuation;
+			await Task.Run(continuation);
 		}
 
 		/// <summary>
 		/// Returns a Task that runs the passed tasks after the current task ends
 		/// </summary>
-		public static async Task Then(this Task task, params Task[] tasks){
+		public static async Task Then(this Task task, params Action[] continuations){
 			await task;
-			for(int i = 0; i < tasks.Length; i++) {
-				await tasks[i];
+			for(int i = 0; i < continuations.Length; i++) {
+				await Task.Run(continuations[i]);
 			}
 		}
 
