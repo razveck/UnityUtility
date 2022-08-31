@@ -4,18 +4,18 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace razveck.UnityUtility {
-	public class Bootstrapper : MonoBehaviour {
+	public class SceneRedirecter : MonoBehaviour {
 
 		[SerializeField]
-		private SceneReference[] _startupScenes;
+		private SceneReference[] _scenesToLoad;
 
 		// Use this for initialization
 		private async void Start() {
-			Assert.IsTrue(_startupScenes.Length > 0);
+			Assert.IsTrue(_scenesToLoad.Length > 0);
 			SceneService.Instance.LoadedScenes.Add(gameObject.scene.path);
 
-			for(int i = 0; i < _startupScenes.Length; i++) {
-				await SceneService.Instance.LoadSceneAsync(_startupScenes[i]);
+			for(int i = 0; i < _scenesToLoad.Length; i++) {
+				await SceneService.Instance.LoadSceneAsync(_scenesToLoad[i]);
 			}
 
 
