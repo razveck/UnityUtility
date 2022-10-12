@@ -11,14 +11,19 @@ namespace razveck.UnityUtility {
 		private HashSet<GameObject> _enteredObjects = new HashSet<GameObject>();
 		private HashSet<GameObject> _objectsToExit = new HashSet<GameObject>();
 
-		private static RaycastHit[] _results = new RaycastHit[8];
+		private static RaycastHit[] _results;
 		private Camera _camera;
 
 		[SerializeField]
 		private LayerMask _mask = default;
 
+		[SerializeField]
+		private int _numberOfIntersections = default;
+
+
 		private void Start() {
 			_camera = GetComponent<Camera>();
+			_results = new RaycastHit[_numberOfIntersections];
 		}
 
 		private void Update() {
