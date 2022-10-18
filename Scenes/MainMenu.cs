@@ -10,7 +10,7 @@ namespace razveck.UnityUtility {
 
 		public async void StartGame() {
 			for(int i = 0; i < _scenesToLoad.Length; i++) {
-				await SceneService.Instance.LoadSceneAsync(_scenesToLoad[i]);
+				await SceneService.Instance.LoadSceneAsync(_scenesToLoad[i], true);
 			}
 
 			await SceneService.Instance.UnloadSceneAsync(gameObject.scene.path);
