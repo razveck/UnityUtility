@@ -170,7 +170,18 @@ namespace razveck.UnityUtility {
 
 		#endregion
 
+		#region Array
+
+		public static void Clear(this Array array){
+			Array.Clear(array, 0, array.Length);
+		}
+
+		#endregion
+
 		#region RectTransform
+
+		private static Vector3[] _worldCorners = new Vector3[4];
+		private static Vector3[] _screenCorners = new Vector3[4];
 
 		/// <summary>
 		/// Returns the screen-space rect of the RectTransform.
@@ -178,20 +189,24 @@ namespace razveck.UnityUtility {
 		/// <param name="transform"></param>
 		/// <param name="cam"></param>
 		/// <returns></returns>
-		public static Rect RectTransformToScreenSpace(this RectTransform transform, Camera cam) {
-			var worldCorners = new Vector3[4];
-			var screenCorners = new Vector3[4];
+		public static Rect ScreenSpaceRect(this RectTransform transform, Camera cam) {
+			_worldCorners.Clear();
+			_screenCorners.Clear();
 
-			transform.GetWorldCorners(worldCorners);
+			transform.GetWorldCorners(_worldCorners);
 
-			for(int i = 0; i < 4; i++) {
-				screenCorners[i] = cam.WorldToScreenPoint(worldCorners[i]);
+			var canvas = transform.root.GetComponentInChildren<Canvas>();
+			if(canvas.renderMode == RenderMode.ScreenSpaceOverlay) {
+				_screenCorners = _worldCorners;
+			} else {
+				for(int i = 0; i < 4; i++) {
+					_screenCorners[i] = cam.WorldToScreenPoint(_worldCorners[i]);
+				}
 			}
-
-			return new Rect(screenCorners[0].x,
-							Screen.height - screenCorners[0].y,
-							screenCorners[2].x - screenCorners[0].x,
-							screenCorners[0].y - screenCorners[2].y);
+			return new Rect(_screenCorners[0].x,
+							Screen.height - _screenCorners[0].y,
+							_screenCorners[2].x - _screenCorners[0].x,
+							_screenCorners[0].y - _screenCorners[2].y);
 		}
 
 		#endregion
@@ -250,7 +265,7 @@ namespace razveck.UnityUtility {
 		/// <summary>
 		/// Returns a Task that runs the passed tasks after the current task ends
 		/// </summary>
-		public static async Task Then(this Task task, params Action[] continuations){
+		public static async Task Then(this Task task, params Action[] continuations) {
 			await task;
 			for(int i = 0; i < continuations.Length; i++) {
 				await Task.Run(continuations[i]);
