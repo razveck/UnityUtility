@@ -1,5 +1,6 @@
 ﻿//Author: João Azuaga
 
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace razveck.UnityUtility {
