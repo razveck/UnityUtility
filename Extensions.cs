@@ -170,6 +170,36 @@ namespace razveck.UnityUtility {
 
 		#endregion
 
+		#region IEnumerable<T>
+
+		public static T GetClosestTransform<T>(this IEnumerable<T> list, Transform target)
+			where T : Component{
+			T closest = null;
+			float closestDistance = float.PositiveInfinity;
+
+			foreach(var item in list) {
+				float distanceSqr = (item.transform.position - target.position).sqrMagnitude;
+				if(distanceSqr < closestDistance) {
+					closestDistance = distanceSqr;
+					closest = item;
+				}
+			}
+
+			return closest;
+		}
+
+		/// <summary>
+		/// Returns a random element of the enumerable.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="list"></param>
+		/// <returns></returns>
+		public static T GetRandom<T>(this IEnumerable<T> enumerable) {
+			return enumerable.ElementAt(Random.Range(0, enumerable.Count()));
+		}
+
+		#endregion
+
 		#region Array
 
 		public static void Clear(this Array array){
