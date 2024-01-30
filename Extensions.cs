@@ -137,6 +137,14 @@ namespace razveck.UnityUtility {
 			return target != null;
 		}
 
+		/// <summary>
+		/// Activates the gameObject if inactive. Deactivates if active.
+		/// </summary>
+		/// <param name="current"></param>
+		public static void ToggleActive(this GameObject current){
+			current.SetActive(!current.activeSelf);
+		}
+
 		#endregion
 
 		#region IList<T>
