@@ -9,6 +9,8 @@ using System;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 using System.Threading;
+using UnityEngine.Assertions;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -141,7 +143,7 @@ namespace razveck.UnityUtility {
 		/// Activates the gameObject if inactive. Deactivates if active.
 		/// </summary>
 		/// <param name="current"></param>
-		public static void ToggleActive(this GameObject current){
+		public static void ToggleActive(this GameObject current) {
 			current.SetActive(!current.activeSelf);
 		}
 
@@ -157,10 +159,10 @@ namespace razveck.UnityUtility {
 		/// <returns></returns>
 		public static IList<T> ExtractRange<T>(this IList<T> source, int start, int end) {
 			List<T> result = new List<T>();
-			for(int i = 0; i < source.Count; i++) {
-				if(i >= start && i <= end) {
-					result.Add(source[i]);
-				}
+			Assert.IsTrue(start < source.Count);
+			Assert.IsTrue(end < source.Count);
+			for(int i = start; i <= end; i++) {
+				result.Add(source[i]);
 			}
 
 			return result;
@@ -181,7 +183,7 @@ namespace razveck.UnityUtility {
 		#region IEnumerable<T>
 
 		public static T GetClosestTransform<T>(this IEnumerable<T> list, Transform target)
-			where T : Component{
+			where T : Component {
 			T closest = null;
 			float closestDistance = float.PositiveInfinity;
 
@@ -210,7 +212,7 @@ namespace razveck.UnityUtility {
 
 		#region Array
 
-		public static void Clear(this Array array){
+		public static void Clear(this Array array) {
 			Array.Clear(array, 0, array.Length);
 		}
 
