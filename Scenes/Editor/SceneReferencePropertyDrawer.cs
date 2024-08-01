@@ -22,12 +22,55 @@ namespace razveck.UnityUtility {
 
 		private static readonly RectOffset boxPadding = EditorStyles.helpBox.padding;
 
-
 		// Made these two const btw
 		private const float PAD_SIZE = 2f;
 
 		private static readonly float lineHeight = EditorGUIUtility.singleLineHeight;
 		private static readonly float paddedLine = lineHeight + PAD_SIZE;
+
+
+		private const string disabledGUID = "fda95429d5a2f284794965f43447e068";
+		private const string enabledGUID = "97c237b0f7e48e54cbee8c16c8eadc55";
+		private const string notInBuildGUID = "88e7eb285e673d44abb1e4cebf1d46a7";
+		private static Texture _iconNotInBuild = default;
+		private static Texture _iconEnabled = default;
+		private static Texture _iconDisabled = default;
+		private static Texture IconNotInBuild
+		{
+			get
+			{
+				if(_iconNotInBuild == null)
+					InitializeTextures();
+				return _iconNotInBuild;
+			}
+		}
+
+		private static Texture IconEnabled
+		{
+			get
+			{
+				if(_iconEnabled == null)
+					InitializeTextures();
+				return _iconEnabled;
+			}
+		}
+
+		private static Texture IconDisabled
+		{
+			get
+			{
+				if(_iconDisabled == null)
+					InitializeTextures();
+				return _iconDisabled;
+			}
+		}
+
+
+		private static void InitializeTextures() {
+			_iconNotInBuild = AssetDatabase.LoadAssetAtPath<Texture>(AssetDatabase.GUIDToAssetPath(notInBuildGUID));
+			_iconEnabled = AssetDatabase.LoadAssetAtPath<Texture>(AssetDatabase.GUIDToAssetPath(enabledGUID));
+			_iconDisabled = AssetDatabase.LoadAssetAtPath<Texture>(AssetDatabase.GUIDToAssetPath(disabledGUID));
+		}
 
 		/// <summary>
 		/// Drawing the 'SceneReference' property
@@ -88,19 +131,22 @@ namespace razveck.UnityUtility {
 
 			// Missing from build scenes
 			if(buildScene.buildIndex == -1) {
-				iconContent = EditorGUIUtility.IconContent("d_winbtn_mac_close");
+				//iconContent = EditorGUIUtility.IconContent("Plugins/UnityUtility/Scenes/Editor/Icon_NotInBuild.png");
+				iconContent = new GUIContent(IconNotInBuild);
 				labelContent.text = "NOT In Build";
 				labelContent.tooltip = "This scene is NOT in build settings.\nIt will be NOT included in builds.";
 			}
 			// In build scenes and enabled
 			else if(buildScene.scene.enabled) {
-				iconContent = EditorGUIUtility.IconContent("d_winbtn_mac_max");
+				//iconContent = EditorGUIUtility.IconContent("Plugins\\UnityUtility\\Scenes\\Editor\\Icon_Enabled.png");
+				iconContent = new GUIContent(IconEnabled);
 				labelContent.text = "BuildIndex: " + buildScene.buildIndex;
 				labelContent.tooltip = "This scene is in build settings and ENABLED.\nIt will be included in builds." + readOnlyWarning;
 			}
 			// In build scenes and disabled
 			else {
-				iconContent = EditorGUIUtility.IconContent("d_winbtn_mac_min");
+				//iconContent = EditorGUIUtility.IconContent("Icon_Disabled");
+				iconContent = new GUIContent(IconDisabled);
 				labelContent.text = "BuildIndex: " + buildScene.buildIndex;
 				labelContent.tooltip = "This scene is in build settings and DISABLED.\nIt will be NOT included in builds.";
 			}

@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace razveck.UnityUtility {
+	/// <summary>
+	/// Automatically loads the specified scenes and unloads the current scene.
+	/// Useful for bootstrapper or for loading a bunch of scenes at once.
+	/// </summary>
 	public class SceneRedirecter : MonoBehaviour {
 
 		[SerializeField]
