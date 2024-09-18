@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 90d98f1f1752848439d1ed9383117172
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _iconNotInBuild: {fileID: 2800000, guid: 88e7eb285e673d44abb1e4cebf1d46a7, type: 3}
+  - _iconEnabled: {fileID: 2800000, guid: 97c237b0f7e48e54cbee8c16c8eadc55, type: 3}
+  - _iconDisabled: {fileID: 2800000, guid: fda95429d5a2f284794965f43447e068, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
