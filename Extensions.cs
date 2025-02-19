@@ -178,6 +178,18 @@ namespace razveck.UnityUtility {
 			return list[Random.Range(0, list.Count)];
 		}
 
+		/// <summary>
+		/// Removes all null items from the list.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="list"></param>
+		public static void ClearNulls<T>(this IList<T> list) {
+			for(int i = list.Count - 1; i >= 0; i--) {
+				if(list[i] == null)
+					list.RemoveAt(i);
+			}
+		}
+
 		#endregion
 
 		#region IEnumerable<T>
