@@ -53,6 +53,10 @@ namespace razveck.UnityUtility {
 			return new Vector3(Mathf.Abs(vec.x), Mathf.Abs(vec.y), Mathf.Abs(vec.z));
 		}
 
+		public static Vector2 XZToVector2(this Vector3 vec) {
+			return new Vector2(vec.x, vec.z);
+		}
+
 		#endregion
 
 		#region Vector2
@@ -73,6 +77,10 @@ namespace razveck.UnityUtility {
 		/// <returns></returns>
 		public static Vector2 Abs(this Vector2 vec) {
 			return new Vector2(Mathf.Abs(vec.x), Mathf.Abs(vec.y));
+		}
+
+		public static Vector3 ToVector3XZ(this Vector2 vec){
+			return new Vector3(vec.x, 0f, vec.y);
 		}
 
 		#endregion
