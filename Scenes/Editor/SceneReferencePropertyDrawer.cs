@@ -89,7 +89,7 @@ namespace razveck.UnityUtility {
 				EditorGUI.BeginChangeCheck();
 				{
 					// Draw the main Object field
-					label.tooltip = "The actual Scene Asset reference.\nOn serialize this is also stored as the asset's path.";
+					//label.tooltip = "The actual Scene Asset reference.\nOn serialize this is also stored as the asset's path.";
 					sceneAssetProperty.objectReferenceValue = EditorGUI.ObjectField(position, label, sceneAssetProperty.objectReferenceValue, typeof(SceneAsset), false);
 				}
 				var buildScene = BuildUtils.GetBuildScene(sceneAssetProperty.objectReferenceValue);
