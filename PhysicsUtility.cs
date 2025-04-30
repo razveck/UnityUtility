@@ -23,5 +23,14 @@ namespace razveck.UnityUtility {
 			}
 		}
 
+		public static float AngleOfReachSteep(float gravity, float distance, float velocity) {
+			float factor = Mathf.Clamp((-gravity * distance) / (velocity * velocity), -1f, 1f);
+			return (Mathf.PI / 4) + 0.5f * Mathf.Acos(factor);
+		}
+		public static float AngleOfReachShallow(float gravity, float distance, float velocity) {
+			float factor = Mathf.Clamp((-gravity * distance) / (velocity * velocity), -1f, 1f);
+			return 0.5f * Mathf.Asin(factor);
+		}
+
 	}
 }
