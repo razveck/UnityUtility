@@ -43,7 +43,7 @@ namespace razveck.UnityUtility {
 		}
 
 		public void Raycast() {
-			int count = PhysicsUtility.RaycastSorted(_camera.ScreenPointToRay(Input.mousePosition), _results, (int)_camera.farClipPlane, _mask);
+			int count = PhysicsUtility.RaycastSorted(_camera.ScreenPointToRay(Input.mousePosition), _results, _camera.farClipPlane, _mask);
 			if(count == 0)
 				return;
 

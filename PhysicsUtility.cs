@@ -6,7 +6,7 @@ using UnityEngine;
 namespace razveck.UnityUtility {
 	public static class PhysicsUtility {
 
-		public static int RaycastSorted(Ray ray, RaycastHit[] hits, int maxDistance, int layerMask) {
+		public static int RaycastSorted(Ray ray, RaycastHit[] hits, float maxDistance, int layerMask) {
 			ClearRaycastArray(hits);
 			int hitCount = Physics.RaycastNonAlloc(ray, hits, maxDistance, layerMask);
 			SortRaycasts(hits, hitCount);
