@@ -79,7 +79,7 @@ namespace razveck.UnityUtility {
 			return new Vector2(Mathf.Abs(vec.x), Mathf.Abs(vec.y));
 		}
 
-		public static Vector3 ToVector3XZ(this Vector2 vec){
+		public static Vector3 ToVector3XZ(this Vector2 vec) {
 			return new Vector3(vec.x, 0f, vec.y);
 		}
 
@@ -291,7 +291,8 @@ namespace razveck.UnityUtility {
 		/// </summary>
 		/// <param name="transform"></param>
 		public static void DestroyChildren(this Transform transform) {
-			for(int i = 0; i < transform.childCount; i++) {
+			int count = transform.childCount;
+			for(int i = count - 1; i >= 0; i--) {
 				transform.GetChild(i).gameObject.SafeDestroy();
 			}
 		}
