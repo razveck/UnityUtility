@@ -255,18 +255,21 @@ namespace razveck.UnityUtility {
 
 			transform.GetWorldCorners(_worldCorners);
 
-			var canvas = transform.root.GetComponentInChildren<Canvas>();
+			var canvas = transform.GetComponentInParent<Canvas>();
 			if(canvas.renderMode == RenderMode.ScreenSpaceOverlay) {
 				_screenCorners = _worldCorners;
 			} else {
-				for(int i = 0; i < 4; i++) {
-					_screenCorners[i] = cam.WorldToScreenPoint(_worldCorners[i]);
-				}
+				//for(int i = 0; i < 4; i++) {
+				//	_screenCorners[i] = cam.WorldToScreenPoint(_worldCorners[i]);
+				//}
+				//optimization
+				_screenCorners[0] = cam.WorldToScreenPoint(_worldCorners[0]);
+				_screenCorners[2] = cam.WorldToScreenPoint(_worldCorners[2]);
 			}
 			return new Rect(_screenCorners[0].x,
-							Screen.height - _screenCorners[0].y,
+							_screenCorners[0].y,
 							_screenCorners[2].x - _screenCorners[0].x,
-							_screenCorners[0].y - _screenCorners[2].y);
+							_screenCorners[2].y - _screenCorners[0].y);
 		}
 
 		#endregion
